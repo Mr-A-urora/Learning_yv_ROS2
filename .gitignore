@@ -1,0 +1,189 @@
+# =================================
+# ROS2 项目通用忽略规则
+# =================================
+
+# -----------------------------
+# 系统文件
+# -----------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*~
+~*
+*.bak
+*.tmp
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# -----------------------------
+# ROS2 构建和开发文件
+# -----------------------------
+# Colcon 构建目录
+build/
+install/
+log/
+
+# ament 构建文件
+*_ament_build/
+*_ament_package/
+
+# ROS2 包信息文件
+setup.bash
+local_setup.bash
+_setup_util.py
+setup.sh
+local_setup.sh
+_setup_util.sh
+
+# -----------------------------
+# Python 相关
+# -----------------------------
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+.env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# -----------------------------
+# C++ 相关
+# -----------------------------
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# -----------------------------
+# IDE 和编辑器文件
+# -----------------------------
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# CLion
+.idea/
+*.iws
+
+# Eclipse
+.settings/
+.project
+.classpath
+
+# Vim
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# -----------------------------
+# 文档和日志
+# -----------------------------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ROS bag 文件（通常较大，建议忽略）
+*.bag
+*.db3
+
+# -----------------------------
+# 临时文件和用户数据
+# -----------------------------
+# ROS2 launch 文件可能生成的临时文件
+*.pyc
+*.pytest_cache
+
+# 用户配置文件
+.user_*
+*.user
+
+# 本地开发配置
+local_*.yaml
+local_*.yml
+local_*.json
