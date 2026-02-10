@@ -1,6 +1,0 @@
-/home/mraurora/Learning_yv_ROS2/src/scripts/Learning_Node/cpp/CMakeFiles/first_node.dir
-/home/mraurora/Learning_yv_ROS2/src/scripts/Learning_Node/cpp/CMakeFiles/uninstall.dir
-/home/mraurora/Learning_yv_ROS2/src/scripts/Learning_Node/cpp/CMakeFiles/first_node_uninstall.dir
-/home/mraurora/Learning_yv_ROS2/src/scripts/Learning_Node/cpp/CMakeFiles/test.dir
-/home/mraurora/Learning_yv_ROS2/src/scripts/Learning_Node/cpp/CMakeFiles/edit_cache.dir
-/home/mraurora/Learning_yv_ROS2/src/scripts/Learning_Node/cpp/CMakeFiles/rebuild_cache.dir
