@@ -12,13 +12,21 @@ find_package(rclcpp REQUIRED)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
+
+include_directories(include/demo_cpp_pkg)
+
 add_executable(cpp_node src/cpp_node.cpp)
 add_executable(person_node src/person_node.cpp)
+add_executable(learn_auto src/learn_auto.cpp)
+add_executable(learn_shared_ptr src/learn_shared_ptr.cpp)
+add_executable(learn_lambda src/learn_lambda.cpp)
+add_executable(learn_functional src/learn_functional.cpp)
+add_executable(learn_thread src/learn_thread.cpp)
 
 ament_target_dependencies(cpp_node rclcpp)
 ament_target_dependencies(person_node rclcpp)
 
-install(TARGETS cpp_node person_node
+install(TARGETS cpp_node person_node learn_auto learn_shared_ptr learn_lambda learn_functional learn_thread
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
