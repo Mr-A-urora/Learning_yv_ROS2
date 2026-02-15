@@ -12,16 +12,49 @@ private:
     rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr publisher_;
     rclcpp::Subscription<turtlesim::msg::Pose>::SharedPtr subscriber_;
 
+    double target_x_{1.0};
+    double target_y_{1.0};
+    double k_{1.0};
+    double max_speed_{3.0};
+
 public:
     explicit TurtleControlNode(const string &node_name) : Node(node_name)
     {
         publisher_ = this->create_publisher<geometry_msgs::msg::Twist>("/turtle1/cmd_vel", 10);
-        subscriber_ = this->create_subscription<turtlesim::msg::Pose>{"/turtle1/pose", 10, bind(&TurtleControlNode::on_pose_received_, this, placeholders::_1)};
+        subscriber_ = this->create_subscription<turtlesim::msg::Pose>("/turtle1/pose", 10, bind(&TurtleControlNode::on_pose_received_, this, placeholders::_1));
     }
 
     // 参数：收到数据的共享指针
     void on_pose_received_(const turtlesim::msg::Pose::SharedPtr pose)
     {
+        // 获取当前的位置
+        auto current_x = pose->x;
+        auto current_y = pose->y;
+
+        RCLCPP_INFO(get_logger(), "当前：x=%f, y=%f", current_x,current_y);
+
+        // 计算当前海龟位置跟目标位置之间的距离差和角度差
+        auto distance = sqrt(
+            (target_x_-current_x)*(target_x_-current_x)+(target_y_-current_y)*(target_y_-current_y)
+        );
+        auto angle = atan2((target_y_-current_y), (target_x_-current_x)) - pose ->theta;
+
+        // 控制策略
+        auto msg = geometry_msgs::msg::Twist();
+        if (distance > 0.1){
+            if (fabs(angle)>0.2){
+                msg.angular.z = fabs(angle);
+            } else {
+                msg.linear.x = k_*distance;
+            }
+        }
+
+        // 限制线速度最大值
+        if(msg.linear.x > max_speed_){
+            msg.linear.x = max_speed_;
+        }
+
+        publisher_->publish(msg);
     }
 };
 

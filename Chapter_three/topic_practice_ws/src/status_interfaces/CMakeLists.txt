@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(demo_cpp_topic)
+project(status_interfaces)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,15 +7,14 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(turtlesim REQUIRED)
+find_package(builtin_interfaces REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
-add_executable(turtle_circle src/turtle_circle.cpp)
-add_executable(turtle_control src/turtle_control.cpp)
-
-ament_target_dependencies(turtle_circle rclcpp geometry_msgs)
-ament_target_dependencies(turtle_control rclcpp geometry_msgs turtlesim)
+# cmake 函数，来自依赖 rosidl_default_genterators 用于将msg等消息接口定义文件转换成库或者头文件类
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/SystemStatus.msg"
+  DEPENDENCIES builtin_interfaces
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -28,9 +27,5 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
-
-install(TARGETS turtle_circle turtle_control
-DESTINATION lib/${PROJECT_NAME}
-)
 
 ament_package()
