@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(status_display)
+project(chapt4_interfaces)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -7,17 +7,13 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
-find_package(status_interfaces REQUIRED)
-find_package(Qt5 REQUIRED COMPONENTS Widgets)
+find_package(sensor_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
-add_executable(hello_qt src/hello_qt.cpp)
-add_executable(sys_status_display src/sys_status_display.cpp)
-
-target_link_libraries(hello_qt Qt5::Widgets)
-target_link_libraries(sys_status_display Qt5::Widgets)
-
-ament_target_dependencies(sys_status_display rclcpp status_interfaces)
+rosidl_generate_interfaces(${PROJECT_NAME}
+  "srv/FaceDetector.srv"
+  DEPENDENCIES sensor_msgs
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -30,9 +26,5 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
-
-install(TARGETS hello_qt sys_status_display
-  DESTINATION lib/${PROJECT_NAME}
-)
 
 ament_package()
