@@ -30,7 +30,7 @@ class FaceDetectNode(Node):
         self.get_logger().info(f"加载完成图像，开始识别！")
 
         # 检测人脸
-        face_locations = face_recognition.face_locations(cv_image, number_of_times_to_upsample=self.number_of_times_to_upsample, model=self.modle)
+        face_locations = face_recognition.face_locations(cv_image, number_of_times_to_upsample=self.number_of_times_to_upsample, model=self.model)
         response.use_time = time.time() - start_time
         response.number = len(face_locations)
         for top, right, bottom, left in face_locations:
