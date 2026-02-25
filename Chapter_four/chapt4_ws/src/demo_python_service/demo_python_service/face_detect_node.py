@@ -7,16 +7,34 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from cv_bridge import CvBridge
 import time
+from rcl_interfaces.msg import SetParametersResult
 
 class FaceDetectNode(Node):
     def __init__(self):
         super().__init__('face_detect_node')
         self.service_ = self.create_service(FaceDetector, 'face_detect', self.detect_face_callback)
         self.bridge = CvBridge()
-        self.number_of_times_to_upsample = 1
-        self.model = 'hog'
+        # 准备参数更新
+        self.declare_parameter('number_of_times_to_upsample', 1)
+        self.declare_parameter('model', 'hog')
+        self.number_of_times_to_upsample = self.get_parameter('number_of_times_to_upsample').value
+        self.model = self.get_parameter('model').value
         self.default_image_path = os.path.join(get_package_share_directory('demo_python_service'), 'source/default.jpg')
-        self.get_logger().info("人脸检测服务以启动！")
+        self.get_logger().info("人脸检测服务已启动！")
+        self.add_on_set_parameters_callback(self.parameter_callback)
+        # 设置自身节点参数的方法
+        # self.set_parameters([rclpy.Parameter('model', rclcpp.Parameter.Type.STRING, 'cnn')])
+
+    # 参数更新回调函数
+    def parameter_callback(self, parameters):
+        for parameter in parameters:
+            self.get_logger().info(f"参数更新：{parameter.name} = {parameter.value}")
+            if parameter.name == 'number_of_times_to_upsample':
+                self.number_of_times_to_upsample = parameter.value
+            elif parameter.name == 'model':
+                self.model = parameter.value
+
+        return SetParametersResult(successful=True)
 
     def detect_face_callback(self, request, response):
         if request.image.data:
