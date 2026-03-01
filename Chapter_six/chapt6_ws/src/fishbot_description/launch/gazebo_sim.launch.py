@@ -42,9 +42,38 @@ def generate_launch_description():
         arguments=['-topic', '/robot_description', '-entity', 'fishbot'],
     )
 
+    action_laod_joint_state_controller = launch.actions.ExecuteProcess(
+        cmd='ros2 control load_controller fishbot_joint_state_broadcaster --set-state active'.split(' '),
+        output='screen'
+    )
+
+    action_laod_effort_controller = launch.actions.ExecuteProcess(
+        cmd='ros2 control load_controller fishbot_effort_controller --set-state active'.split(' '),
+        output='screen'
+    )
+
+    action_laod_diff_driver_controller = launch.actions.ExecuteProcess(
+        cmd='ros2 control load_controller fishbot_diff_drive_controller --set-state active'.split(' '),
+        output='screen'
+    )
+
     return launch.LaunchDescription([
         action_declare_args_mode_path,
         action_robot_state_publisher,
         action_launch_gazebo,
-        action_spawn_entity
+        action_spawn_entity,
+
+        launch.actions.RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=action_spawn_entity,
+                on_exit=[action_laod_joint_state_controller],
+            )
+        ),
+
+        launch.actions.RegisterEventHandler(
+            event_handler=launch.event_handlers.OnProcessExit(
+                target_action=action_laod_joint_state_controller,
+                on_exit=[action_laod_diff_driver_controller],
+            )
+        ),
     ])
